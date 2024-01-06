@@ -28,12 +28,20 @@ public class ProductService {
 				.build();
 		
 		for (ItemDTO i : shopDTO.getItens()) {
+			
 			try {
-				Mono<ProductDTO> product = webClient.get().uri("/product/"+i.getProduct().getId()).retrieve().bodyToMono(ProductDTO.class);
+				Long productId = i.getProduct().getId();
+				Mono<ProductDTO> product = webClient
+						.get()
+						.uri("/product/"+productId)
+						.retrieve()
+						.bodyToMono(ProductDTO.class);
+				
 				ProductDTO productDTO = product.block();
 				i.setProduct(productDTO);
 				i.setPreco(productDTO.getPreco());
 				itensDTO.add(i);
+				
 			} catch (Exception e) {
 				throw new ProductNotFoundException();
 			}
