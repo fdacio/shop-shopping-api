@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import br.com.daciosoftware.shop.exceptions.UserNotFoundException;
 import br.com.daciosoftware.shop.modelos.dto.UserDTO;
 import reactor.core.publisher.Mono;
 
@@ -22,7 +23,8 @@ public class UserService {
 			return user.block();
 			
 		} catch (Exception e) {
-			throw new RuntimeException("Usuário não encontrado");
+			e.printStackTrace();
+			throw new UserNotFoundException();
 		}
 	}
 	

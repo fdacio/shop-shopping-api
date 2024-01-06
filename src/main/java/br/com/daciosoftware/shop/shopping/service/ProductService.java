@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
+import br.com.daciosoftware.shop.exceptions.ProductNotFoundException;
 import br.com.daciosoftware.shop.modelos.dto.ItemDTO;
 import br.com.daciosoftware.shop.modelos.dto.ProductDTO;
 import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
@@ -34,7 +35,7 @@ public class ProductService {
 				i.setPreco(productDTO.getPreco());
 				itensDTO.add(i);
 			} catch (Exception e) {
-				throw new RuntimeException("Produto não encontrado");
+				throw new ProductNotFoundException();
 			}
 		}
 
