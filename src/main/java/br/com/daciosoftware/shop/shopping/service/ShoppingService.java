@@ -6,9 +6,12 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.com.daciosoftware.shop.exceptions.ShopNotFoundException;
 import br.com.daciosoftware.shop.modelos.dto.ItemDTO;
 import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
 import br.com.daciosoftware.shop.modelos.dto.UserDTO;
@@ -26,13 +29,25 @@ public class ShoppingService {
 	private ProductService productService;
 	
 	public List<ShopDTO> findAll() {
-		
 		List<Shop> vendas = shopRepository.findAll();
-		
 		return vendas
 				.stream()
 				.map(ShopDTO::convert)
 				.collect(Collectors.toList());
+	}
+
+	public ShopDTO findById(Long shopId) {
+		Optional<Shop> shopOptional = shopRepository.findById(shopId);
+		if (shopOptional.isPresent()) {
+			return ShopDTO.convert(shopOptional.get());
+		} else {
+			throw new ShopNotFoundException();
+		}
+	}
+	
+	public Page<ShopDTO> findAllPageable(Pageable page) {
+		Page<Shop> vendas = shopRepository.findAll(page);
+		return vendas.map(ShopDTO::convert);
 	}
 	
 	@Transactional
