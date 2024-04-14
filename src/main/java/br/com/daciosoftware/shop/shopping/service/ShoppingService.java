@@ -12,11 +12,11 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.daciosoftware.shop.exceptions.ShopNotFoundException;
-import br.com.daciosoftware.shop.modelos.dto.ItemDTO;
-import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
-import br.com.daciosoftware.shop.modelos.dto.UserDTO;
-import br.com.daciosoftware.shop.modelos.entity.Shop;
+import br.com.daciosoftware.shop.shopping.dto.ItemDTO;
+import br.com.daciosoftware.shop.shopping.dto.ShopDTO;
+import br.com.daciosoftware.shop.shopping.entity.Shop;
 import br.com.daciosoftware.shop.shopping.repository.ShoppingRepository;
+import br.com.daciosoftware.shop.user.dto.UserDTO;
 
 @Service
 public class ShoppingService {

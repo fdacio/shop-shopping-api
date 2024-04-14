@@ -8,9 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
 import br.com.daciosoftware.shop.exceptions.ProductNotFoundException;
-import br.com.daciosoftware.shop.modelos.dto.ItemDTO;
-import br.com.daciosoftware.shop.modelos.dto.ProductDTO;
-import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
+import br.com.daciosoftware.shop.product.dto.ProductDTO;
+import br.com.daciosoftware.shop.shopping.dto.ItemDTO;
+import br.com.daciosoftware.shop.shopping.dto.ShopDTO;
 import reactor.core.publisher.Mono;
 
 @Service
