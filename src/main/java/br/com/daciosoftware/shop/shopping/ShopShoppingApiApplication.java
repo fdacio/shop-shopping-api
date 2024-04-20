@@ -8,8 +8,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
 @EnableJpaRepositories(basePackages = { "br.com.daciosoftware.shop.shopping.repository", "br.com.daciosoftware.shop.product.repository", "br.com.daciosoftware.shop.user.repository" })
-@ComponentScan(basePackages = { "br.com.daciosoftware.shop.shopping*", "br.com.daciosoftware.shop.exceptions.*" }) 
-@EntityScan(basePackages = { "br.com.daciosoftware.shop.shopping.entity", "br.com.daciosoftware.shop.product.entity", "br.com.daciosoftware.shop.user.entity" })
+@ComponentScan(basePackages = { "br.com.daciosoftware.shop.shopping*", "br.com.daciosoftware.shop.exceptions*" }) 
+@EntityScan(basePackages = { "br.com.daciosoftware.shop.modelos.entity" })
 public class ShopShoppingApiApplication {
 
 	public static void main(String[] args) {

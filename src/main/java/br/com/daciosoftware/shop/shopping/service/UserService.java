@@ -4,10 +4,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
-import br.com.daciosoftware.shop.exceptions.InvalidUserKeyException;
-import br.com.daciosoftware.shop.exceptions.UserNotFoundException;
-import br.com.daciosoftware.shop.shopping.dto.ShopDTO;
-import br.com.daciosoftware.shop.user.dto.UserDTO;
+import br.com.daciosoftware.shop.exceptions.exceptions.InvalidUserKeyException;
+import br.com.daciosoftware.shop.exceptions.exceptions.UserNotFoundException;
+import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
+import br.com.daciosoftware.shop.modelos.dto.UserDTO;
 import reactor.core.publisher.Mono;
 
 @Service
