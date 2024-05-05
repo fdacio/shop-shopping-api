@@ -17,6 +17,7 @@ import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
 import br.com.daciosoftware.shop.modelos.dto.UserDTO;
 import br.com.daciosoftware.shop.modelos.entity.Shop;
 import br.com.daciosoftware.shop.shopping.repository.ShoppingRepository;
+import jakarta.validation.Valid;
 
 @Service
 public class ShoppingService {
@@ -45,7 +46,7 @@ public class ShoppingService {
 	}
 
 	@Transactional
-	public ShopDTO save(ShopDTO shopDTO, String key) {
+	public ShopDTO save(@Valid ShopDTO shopDTO, String key) {
 		
 		UserDTO userDTO = userService.findUser(shopDTO);
 		userService.validUserKey(userDTO, key);
