@@ -6,8 +6,8 @@ import org.springframework.web.reactive.function.client.WebClient;
 
 import br.com.daciosoftware.shop.exceptions.exceptions.InvalidUserKeyException;
 import br.com.daciosoftware.shop.exceptions.exceptions.UserNotFoundException;
-import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
-import br.com.daciosoftware.shop.modelos.dto.UserDTO;
+import br.com.daciosoftware.shop.modelos.dto.shopping.ShopDTO;
+import br.com.daciosoftware.shop.modelos.dto.user.UserDTO;
 import reactor.core.publisher.Mono;
 
 @Service

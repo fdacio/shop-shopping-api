@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
+import br.com.daciosoftware.shop.modelos.dto.shopping.ShopDTO;
 import br.com.daciosoftware.shop.shopping.service.ShoppingService;
 import jakarta.validation.Valid;
 
@@ -52,6 +52,11 @@ public class ShoppingController {
 	@ResponseStatus(HttpStatus.NO_CONTENT)
 	public void delete(@PathVariable Long id) {
 		shoppingService.delete(id);
+	}
+	
+	@GetMapping("/user/{userId}")
+	public List<ShopDTO> findByUserIndentifier(@PathVariable Long userId) {
+		return shoppingService.findByUserIndentifier(userId);
 	}
 	
 }

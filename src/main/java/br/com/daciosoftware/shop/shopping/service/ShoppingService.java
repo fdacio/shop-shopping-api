@@ -12,10 +12,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import br.com.daciosoftware.shop.exceptions.exceptions.ShopNotFoundException;
-import br.com.daciosoftware.shop.modelos.dto.ItemDTO;
-import br.com.daciosoftware.shop.modelos.dto.ShopDTO;
-import br.com.daciosoftware.shop.modelos.dto.UserDTO;
-import br.com.daciosoftware.shop.modelos.entity.Shop;
+import br.com.daciosoftware.shop.modelos.dto.shopping.ItemDTO;
+import br.com.daciosoftware.shop.modelos.dto.shopping.ShopDTO;
+import br.com.daciosoftware.shop.modelos.dto.user.UserDTO;
+import br.com.daciosoftware.shop.modelos.entity.shopping.Shop;
 import br.com.daciosoftware.shop.shopping.repository.ShoppingRepository;
 import jakarta.validation.Valid;
 
@@ -72,6 +72,14 @@ public class ShoppingService {
 		} else {
 			throw new ShopNotFoundException();
 		}
+	}
+	
+	public List<ShopDTO> findByUserIndentifier(Long userId) {
+		
+		List<Shop> shopsByUser = shopRepository.findByUserIndentifier(userId);
+		
+		return shopsByUser.stream().map(ShopDTO::convert).collect(Collectors.toList());
+		
 	}
 
 }
