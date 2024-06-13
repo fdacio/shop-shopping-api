@@ -13,9 +13,11 @@
 	<artifactId>shop-shopping-api</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>shop-shopping-api</name>
+	<packaging>jar</packaging>
 	<description>Project Shop do Livro Java Back-End</description>
 	<properties>
 		<java.version>17</java.version>
+		<docker.image.prefix>loja</docker.image.prefix>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -63,12 +65,19 @@
 			<version>1.76</version>
 		</dependency>
 	</dependencies>
-
 	<build>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+				<groupId>com.spotify</groupId>
+				<artifactId>dockerfile-maven-plugin</artifactId>
+				<version>1.4.9</version>
+				<configuration>
+					<repository>${docker.image.prefix}/${project.artifactId}</repository>
+				</configuration>
 			</plugin>
 		</plugins>
 	</build>
