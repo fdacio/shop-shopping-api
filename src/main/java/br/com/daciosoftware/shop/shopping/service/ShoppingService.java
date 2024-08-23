@@ -6,7 +6,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import br.com.daciosoftware.shop.exceptions.exceptions.ShopNotFoundException;
-import br.com.daciosoftware.shop.modelos.dto.product.ProductDTO;
 import br.com.daciosoftware.shop.modelos.dto.shopping.ItemDTO;
 import br.com.daciosoftware.shop.modelos.dto.shopping.ShopDTO;
 import br.com.daciosoftware.shop.modelos.dto.user.UserDTO;
