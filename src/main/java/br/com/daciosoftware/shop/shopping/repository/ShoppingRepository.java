@@ -13,5 +13,5 @@ import br.com.daciosoftware.shop.modelos.entity.shopping.Shop;
 public interface ShoppingRepository extends JpaRepository<Shop, Long>, ShoppingReportRepository {
 
 	@Query("select s from shop s where s.user.id = :userId")
-	List<Shop> findByUserIndentifier(Long userId);
+	List<Shop> findByUserIdentifier(Long userId);
 }

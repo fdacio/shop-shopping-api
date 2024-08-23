@@ -3,7 +3,8 @@ package br.com.daciosoftware.shop.shopping.repository;
 import java.time.LocalDate;
 import java.util.List;
 
-import br.com.daciosoftware.shop.modelos.dto.shopping.ShopReportDTO;
+import br.com.daciosoftware.shop.modelos.dto.shopping.ShopSummaryReportDTO;
+import br.com.daciosoftware.shop.modelos.dto.shopping.ShopUserReportDTO;
 import br.com.daciosoftware.shop.modelos.entity.shopping.Shop;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -49,34 +50,38 @@ public class ShoppingReportRepositoryImpl implements ShoppingReportRepository {
 	}
 	
 	@Override
-	public ShopReportDTO getReportByDate(LocalDate dataInicio, LocalDate dataFim) {
+	public ShopSummaryReportDTO getShopByDate(LocalDate dataInicio, LocalDate dataFim) {
 
-		StringBuilder sbSql = new StringBuilder();
-		sbSql.append("select \n");
-		sbSql.append("count(s.id) as count, \n");
-		sbSql.append("sum(s.total) as total, \n");
-		sbSql.append("avg(s.total) as mean \n");
-		sbSql.append("from shop s \n");
-		sbSql.append("where s.data >= :dataInicio \n");
-		sbSql.append("and s.data <= :dataFim \n");
+        String sbSql = "select \n" +
+                "count(s.id) as count, \n" +
+                "sum(s.total) as total, \n" +
+                "avg(s.total) as mean \n" +
+                "from shop s \n" +
+                "where s.data >= :dataInicio \n" +
+                "and s.data <= :dataFim \n";
 		
-		Query query = entityManager.createQuery(sbSql.toString());
+		Query query = entityManager.createQuery(sbSql);
 		query.setParameter("dataInicio", dataInicio.atTime(0, 0));
 		query.setParameter("dataFim", dataFim.atTime(23, 59));
 		
 		Object[] result = (Object[]) query.getSingleResult();
+
+		Integer count = (result[0] != null) ? ((Long) result[0]).intValue() : 0;
+		Float total = (result[1] != null) ? ((Double) result[1]).floatValue() : 0;
+		Float mean = (result[2] != null) ? ((Double) result[2]).floatValue() : 0;
 		
-		Integer count = ((Long) result[0]).intValue();
-		Float total = ((Double) result[1]).floatValue();
-		Float mean = ((Double) result[2]).floatValue();
-		
-		ShopReportDTO shopReportDTO = new ShopReportDTO();
+		ShopSummaryReportDTO shopReportDTO = new ShopSummaryReportDTO();
 		shopReportDTO.setCount(count);
 		shopReportDTO.setTotal(total);
 		shopReportDTO.setMean(mean);
 		
 		return shopReportDTO;
 		
+	}
+
+	@Override
+	public List<ShopUserReportDTO> getShopUserByDate(LocalDate dataInicio, LocalDate dataFim) {
+		return List.of();
 	}
 
 }

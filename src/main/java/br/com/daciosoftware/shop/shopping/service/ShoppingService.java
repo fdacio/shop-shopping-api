@@ -76,7 +76,7 @@ public class ShoppingService {
 	
 	public List<ShopDTO> findByUserIndentifier(Long userId) {
 		
-		List<Shop> shopsByUser = shopRepository.findByUserIndentifier(userId);
+		List<Shop> shopsByUser = shopRepository.findByUserIdentifier(userId);
 		
 		return shopsByUser.stream().map(ShopDTO::convert).collect(Collectors.toList());
 		
