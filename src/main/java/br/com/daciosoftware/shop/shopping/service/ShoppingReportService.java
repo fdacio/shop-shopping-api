@@ -1,49 +1,56 @@
 package br.com.daciosoftware.shop.shopping.service;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.net.URISyntaxException;
-import java.net.URL;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.util.List;
-import java.util.Optional;
-import java.util.stream.Collectors;
-
+import br.com.daciosoftware.shop.modelos.dto.shopping.ShopDTO;
+import br.com.daciosoftware.shop.modelos.dto.shopping.ShopSummaryReportDTO;
+import br.com.daciosoftware.shop.shopping.repository.ShoppingReportRepositoryImpl;
 import com.itextpdf.text.*;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.itextpdf.text.Font.FontFamily;
 import com.itextpdf.text.Font.FontStyle;
 import com.itextpdf.text.pdf.PdfPCell;
 import com.itextpdf.text.pdf.PdfPTable;
 import com.itextpdf.text.pdf.PdfWriter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
-import br.com.daciosoftware.shop.modelos.dto.shopping.ShopDTO;
-import br.com.daciosoftware.shop.modelos.dto.shopping.ShopSummaryReportDTO;
-import br.com.daciosoftware.shop.shopping.repository.ShoppingReportRepositoryImpl;
+import java.io.ByteArrayOutputStream;
+import java.net.URL;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Service
 public class ShoppingReportService {
 
-    private static final int SCALE_PERC_LOGO = 20;
+    private static final int SCALE_PERC_LOGO = 50;
 
     @Autowired
     private ShoppingReportRepositoryImpl shoppingReportRepository;
 
-    public List<ShopDTO> getShopByFilters(LocalDate dataInicio, LocalDate dataFim, Float valorMinimo) {
+    @Autowired
+    private ShoppingService shoppingService;
 
-        return shoppingReportRepository.getShopByFilters(dataInicio, dataFim, valorMinimo)
-                .stream()
-                .map(ShopDTO::convert)
-                .collect(Collectors.toList());
+    public ByteArrayOutputStream getReportDemoVenda(Long shopId)  throws DocumentException {
+        Document document = new Document();
+        document.setMargins(20, 20, 30, 30);
+
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+
+        PdfWriter.getInstance(document, outputStream);
+
+        document.open();
+
+        addHeaderReport(document, "Demonstrativo da Venda");
+
+        ShopDTO shopDTO = shoppingService.findById(shopId);
+        addRowsReportDemoVenda(document, shopDTO);
+
+        document.close();
+
+        return outputStream;
 
     }
 
-    public ByteArrayOutputStream getReportByDate(LocalDate dataInicio, LocalDate dataFim) throws DocumentException, URISyntaxException, IOException {
+    public ByteArrayOutputStream getReportResumoVendas(LocalDate dataInicio, LocalDate dataFim) throws DocumentException {
 
         ShopSummaryReportDTO shopReportDTO = shoppingReportRepository.getShopByDate(dataInicio, dataFim);
 
@@ -63,41 +70,14 @@ public class ShoppingReportService {
         String periodo = String.format("Período: %s à %s", dataInicio.format(dtf), dataFim.format(dtf));
         document.add(new Phrase(periodo, fontPeriodo));
 
-        addRowsReportByDate(document, shopReportDTO);
+        addRowsReportResumoVendas(document, shopReportDTO);
 
         document.close();
 
         return outputStream;
     }
 
-    private void addHeaderReport(Document document, String title) throws URISyntaxException, IOException, DocumentException {
-
-        PdfPTable tableHeader = new PdfPTable(3);
-        tableHeader.setWidthPercentage(100);
-        float[] widths = {15, 70, 15};
-        tableHeader.setWidths(widths);
-
-        PdfPCell pdfPCellImg =  getLogo().isPresent() ? new PdfPCell(getLogo().get()) : new PdfPCell();
-        pdfPCellImg.setBorderWidth(0);
-        tableHeader.addCell(pdfPCellImg);
-
-        Font fontTitle = new Font(FontFamily.HELVETICA, 18, FontStyle.BOLD.ordinal());
-        PdfPCell pdfPCellTitulo = new PdfPCell(new Phrase(title, fontTitle));
-        pdfPCellTitulo.setBorderWidth(0);
-        pdfPCellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
-        pdfPCellTitulo.setVerticalAlignment(Element.ALIGN_MIDDLE);
-
-
-        tableHeader.addCell(pdfPCellTitulo);
-        PdfPCell pdfPCell = new PdfPCell();
-        pdfPCell.setBorderWidth(0);
-        tableHeader.addCell(pdfPCell);
-
-        document.add(tableHeader);
-
-    }
-
-    private void addRowsReportByDate(Document document, ShopSummaryReportDTO shopReportDTO) throws DocumentException {
+    private void addRowsReportResumoVendas(Document document, ShopSummaryReportDTO shopReportDTO) throws DocumentException {
 
         PdfPTable table = new PdfPTable(2);
         table.setWidthPercentage(100);
@@ -123,14 +103,48 @@ public class ShoppingReportService {
 
     }
 
-    private Optional<Image> getLogo() throws URISyntaxException, BadElementException, IOException {
-        URL logoResource = ClassLoader.getSystemResource("static/images/logo.png");
+    private void addRowsReportDemoVenda(Document document, ShopDTO shopDTO) {
+
+    }
+
+    private void addHeaderReport(Document document, String title) throws DocumentException {
+
+        PdfPTable tableHeader = new PdfPTable(3);
+        tableHeader.setWidthPercentage(100);
+        float[] widths = {15, 70, 15};
+        tableHeader.setWidths(widths);
+
+        PdfPCell pdfPCellImg =  getLogo().isPresent() ? new PdfPCell(getLogo().get()) : new PdfPCell();
+        pdfPCellImg.setBorderWidth(0);
+        tableHeader.addCell(pdfPCellImg);
+
+        Font fontTitle = new Font(FontFamily.HELVETICA, 18, FontStyle.BOLD.ordinal());
+        PdfPCell pdfPCellTitulo = new PdfPCell(new Phrase(title, fontTitle));
+        pdfPCellTitulo.setBorderWidth(0);
+        pdfPCellTitulo.setHorizontalAlignment(Element.ALIGN_CENTER);
+        pdfPCellTitulo.setVerticalAlignment(Element.ALIGN_MIDDLE);
+
+        tableHeader.addCell(pdfPCellTitulo);
+        PdfPCell pdfPCell = new PdfPCell();
+        pdfPCell.setBorderWidth(0);
+        tableHeader.addCell(pdfPCell);
+
+        document.add(tableHeader);
+
+    }
+
+    private Optional<Image> getLogo() {
+        URL logoResource = this.getClass().getClassLoader().getResource("static/images/logo.png");
         if (logoResource == null) {
             return Optional.empty();
         }
-        Path path = Paths.get(logoResource.toURI());
-        Image img = Image.getInstance(path.toAbsolutePath().toString());
-        img.scalePercent(SCALE_PERC_LOGO);
-        return Optional.of(img);
+        try {
+            Image img = Image.getInstance(logoResource.toURI().toString());
+            img.scalePercent(SCALE_PERC_LOGO);
+            return Optional.of(img);
+        } catch (Exception e) {
+            return Optional.empty();
+        }
     }
+
 }

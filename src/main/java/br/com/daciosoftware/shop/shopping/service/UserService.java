@@ -1,13 +1,12 @@
 package br.com.daciosoftware.shop.shopping.service;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-
 import br.com.daciosoftware.shop.exceptions.exceptions.InvalidUserKeyException;
 import br.com.daciosoftware.shop.exceptions.exceptions.UserNotFoundException;
 import br.com.daciosoftware.shop.modelos.dto.shopping.ShopDTO;
 import br.com.daciosoftware.shop.modelos.dto.user.UserDTO;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
 
 @Service

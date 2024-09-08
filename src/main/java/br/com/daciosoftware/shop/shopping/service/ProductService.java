@@ -1,17 +1,16 @@
 package br.com.daciosoftware.shop.shopping.service;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.stereotype.Service;
-import org.springframework.web.reactive.function.client.WebClient;
-
 import br.com.daciosoftware.shop.exceptions.exceptions.ProductNotFoundException;
 import br.com.daciosoftware.shop.modelos.dto.product.ProductDTO;
 import br.com.daciosoftware.shop.modelos.dto.shopping.ItemDTO;
 import br.com.daciosoftware.shop.modelos.dto.shopping.ShopDTO;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class ProductService {

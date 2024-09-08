@@ -1,12 +1,11 @@
 package br.com.daciosoftware.shop.shopping.repository;
 
-import java.util.List;
-
+import br.com.daciosoftware.shop.modelos.entity.shopping.Shop;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import br.com.daciosoftware.shop.modelos.entity.shopping.Shop;
+import java.util.List;
 
 
 @Repository
